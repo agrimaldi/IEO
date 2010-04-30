@@ -1,6 +1,6 @@
 library('affy')
 
-pData = read.table('phenoData_20.tab', row.names=1, header=TRUE, sep="\t")
+pData = read.table('phenodata_20.tab', row.names=1, header=TRUE, sep="\t")
 
 metadata = data.frame(labelDescription=c("p53 Status", "DLDA Classifier", "DLDA Error", "Elston histologic grade", "ER status", "PgR status", "Age at diagnosis", "Tumor Size (mm)", "Lymph Node Status", "DSS Time", "DSS Event"))
 
@@ -29,6 +29,7 @@ dev.off()
 # MAplot(B_batch)
 # dev.off()
 
+Pset = fitPLM(A_batch)
 pdf('tex/A_NUSEplot.pdf')
 NUSE(Pset)
 dev.off()
