@@ -1,0 +1,120 @@
+%
+% This is a template for LaTeX beginners. Lines starting with the % symbol
+% like these ones are comments
+%
+% By modifying this document you should be able to easily produce your first
+% latex document
+%
+% In order to produce a PDF file from this source LaTeX file you should either
+% do:
+%
+% $ pdflatex latexTemplate.tex
+%
+% in command-line from the Unix shell if you are working on Unix or use some
+% LaTeX processing software in Windows or Mac OSX (e.g., TexLive)
+%
+% For learning about LaTeX there are lots of on-line materials on the web, just
+% type "latex beginner" on Google
+
+% Preamble
+
+\documentclass{article}
+
+\usepackage{graphicx}  % this is an add-on package to enable including images
+
+\title{Quality Assessment of 20 Samples}
+\author{Alexis Grimaldi, Alexandros Pittis, Oriol Vall\'{e}s}
+
+% begin of the document
+\begin{document}
+
+\maketitle % this prepares the title
+
+\begin{abstract}
+In this work we extract 20 random samples from GSM3494 dataset, used in paper {\it An expression signature for p53 status in human breast cancer predicts mutation status, transcriptional effects, and patient survival}. Our analysis focuses on differentially expressed genes between p53 mutant and wild-type, from which we only produce its Quality Assessment, as the first step of the analysis cycle of microarray data for the IEO project.
+\end{abstract}
+
+
+\section{Introduction. General Aim}
+The p53 tumor suppressor is a critical regulator of tissue homeostasis, and its inactivaction at the gene or protein level confers cellular properties conducive for oncogenesis and cancer progression. Mutations in p53 occur in $>50 \%$ of human cancers and the mutational status of p53 is prognostic in many malignancies. In breast cancer, p53 mutations are associated with worse overall and disease/free survival, independent of other risk factors, and have been implicated in resistance to anticancer therapies.\par
+The specific study on which we focus explores the possibility that distinctive phenotype statuses arise between p53 mutant and wild-type breast tumors
+
+
+
+\section{Quality Assessment Methodology}
+We extracted the data from GSM3494 dataset, placed on URL, which contains a total number of 502 samples. For each one of the 251 patients two distinct microarray analysis were performed by using different platforms HGU1338A and HGU1338B. The following analysis was carried on on a subset of 20 randomly selected samples, half of which were p53 mutant and the other half wild-type. Combining data from different platforms is not a trivial issue, so we decided for restricting our analysis to samples obtained from platform HGU1338A.\par
+The phenotypic data associated with the dataset, corresponding to the clinicopathological variables of an Uppsala cohort, consists of:
+\begin{itemize}
+	\item ID of the patient
+	\item p53 status (mutant or wild-type)
+	\item DLDA classifier result
+	\item DLDA error
+	\item Elston histologic grade Estrogen Receptor (ER) status
+	\item PgR status
+	\item age at diagnosis
+	\item tumor size (mm) 
+	\item Lymph node status
+	\item DSS TIME (Disease-Specific Survival Time in Years) 
+	\item DSS Event (Disease-Specific Survival Event)
+\end{itemize}
+
+\subsection{Quality Assessment}
+	Then we proceeded to perform the Quality Assessment by using the {\it Bioconductor} package of R. Once using R, we created an {\it Affybatch} object using the following samples (listofsamples), with customized metadata based on the headers of the given phenotypic data. Afterwards, in order to check for the presence of poor quality samples, we produced $MA$ plots, $NUSE$ plots and $RLE$ plots, from which we obtained satisfactory results.\par
+
+\subsection{Normalization}
+
+
+\begin{figure}[ht]
+\centerline{\includegraphics[width=0.7\textwidth]{affyprobedesign}}
+\caption{Affymetrix GeneChip expression probe and array design.
+         Figure taken from panel (b) of Figure 2 in Lipshutz et al. (1999).}
+\label{fig:affy}
+\end{figure}
+
+In Figure~\ref{fig:affy} we see something.
+
+\section{Third section}
+
+In this third section we will show how to make a table:
+
+\begin{center}
+\begin{tabular}{||c|c||} \hline
+  {\bf Gene} & {\bf Expression} \\ \hline\hline
+  FOXP2 & overexpressed \\ \hline
+  HOXA & underexpressed \\ \hline
+  BRCA1 & overexpressed \\ \hline
+  p53 & overexpressed \\ \hline\hline
+\end{tabular}
+\end{center}
+
+\section{Fourth section}
+
+Here we show how to put some literal text, that is, text without any
+formatting beyond what we give as text and spaces. Because it uses a
+monospaced font (i.e., courier or the like), it is useful for showing
+source code or text output from some program:
+
+\begin{verbatim}
+> library(RColorBrewer)
+> pms <- pm(spikein133)
+> mms <- mm(spikein133)
+> colors <- brewer.pal(8, "Dark2")
+> selected_probeset <- colnames(pData(spikein133))[1]
+> pns <- probeNames(spikein133)
+> indices <- (1:length(pns))[pns==selected_probeset]
+> nsamples <- length(sampleNames(spikein133))
+> matplot(t(pms[indices, 1:nsamples]), pch="P", log="y", type="b", lty=1,
+  xlab="samples", ylab=expression(log[2]~Intensity), col=colors)
+> matplot(t(mms[indices, 1:nsamples]), pch="M", log="y", type="b", lty=3,
+  add=TRUE, col=colors)
+\end{verbatim}
+
+However, when you'll use Sweave to build a vignette this formatting will
+be done automatically and you'll only need to insert the direct R code.
+
+\section*{Appendix} % we can suppress the numbering from sections using *
+
+Not all these LaTeX chunks are mandatory, you can add and remove what
+you want.
+
+\end{document}
