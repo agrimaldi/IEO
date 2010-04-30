@@ -1,0 +1,6 @@
+library(affy)
+library(SpikeInSubset)
+data(spikein133)
+pms <- pm(spikein133)
+mms <- mm(spikein133)
+boxplot(spikein133, names=1:length(sampleNames(spikein133)), xlab="Experiment", ylab=expression(log[2] * "(intensity)"), main="Hybridization intensities distributions across 6 experiments")

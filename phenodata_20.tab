@@ -1,0 +1,33 @@
+#INDEX (ID) = 
+#p53 seq mut status (p53+=mutant; p53-=wt) = 
+#p53 DLDA classifier result (0=wt-like, 1=mt-like) = 
+#DLDA error (1=yes, 0=no) = 
+#Elston histologic grade = 
+#ER status = 
+#PgR status = 
+#age at diagnosis = 
+#tumor size (mm) = 
+#Lymph node status = 
+#DSS TIME (Disease-Specific Survival Time in years) = 
+#DSS EVENT (Disease-Specific Survival EVENT; 1=death from breast cancer, 0=alive or censored ) = 
+INDEX (ID)	p53 seq mut status (p53+=mutant; p53-=wt)	p53 DLDA classifier result (0=wt-like, 1=mt-like)	DLDA error (1=yes, 0=no)	Elston histologic grade	ER status	PgR status	age at diagnosis	tumor size (mm)	Lymph node status	DSS TIME (Disease-Specific Survival Time in years)	DSS EVENT (Disease-Specific Survival EVENT; 1=death from breast cancer, 0=alive or censored )
+X314B55	p53+	1	0	G3	ER-	PgR-	38	30	LN-	9.583	1
+X164B81	p53+	1	0	G2	ER-	PgR-	62	23	LN-	11.333	0
+X250C78	p53+	1	0	G3	ER-	PgR-	75	18	LN-	2.667	0
+X66A84	p53+	1	0	G3	ER+	PgR-	48	35	LN+	1.417	1
+X287C67	p53+	1	0	G3	ER+	PgR+	37	20	LN+	10	0
+X189B83	p53+	1	0	G2	ER-	PgR-	58	38	LN-	NA	NA
+X19C33	p53+	1	0	G1	ER+	PgR+	61	31	LN+	4.167	1
+X208C06	p53+	1	0	G2	ER+	PgR+	67	22	LN?	0.083	0
+X50A91	p53+	0	1	G2	ER+	PgR-	47	22	LN+	9.583	1
+X69A93	p53+	1	0	G3	ER+	PgR+	62	50	LN+	12.417	0
+X231C80	p53-	0	0	G1	ER+	PgR+	56	22	LN-	10	1
+X84A44	p53-	0	0	G2	ER+	PgR+	84	28	LN-	12.167	0
+X47A87	p53-	1	1	G2	ER-	PgR-	61	53	LN+	10.583	0
+X152B99	p53-	0	0	G2	ER+	PgR+	83	18	LN-	2.083	0
+X150B81	p53-	0	0	G2	ER+	PgR+	55	35	LN+	11.417	0
+X297C26	p53-	0	0	G2	ER+	PgR+	51	30	LN+	9.917	0
+X247C76	p53-	0	0	G2	ER+	PgR+	56	25	LN-	10.5	0
+X48A46	p53-	0	0	G1	ER+	PgR+	78	38	LN?	1.833	0
+X138B34	p53-	0	0	G1	ER+	PgR+	65	23	LN+	11.5	0
+X292C66	p53-	0	0	G2	ER+	PgR+	51	20	LN-	10	0
