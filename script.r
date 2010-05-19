@@ -10,72 +10,73 @@ file_content = read.table('gsm_A')
 A_files = as.character(file_content$V1)
 A_batch = ReadAffy(filenames = A_files, phenoData=phenoData)
 
-# file_content = read.table('gsm_B')
-# B_files = as.character(file_content$V1)
-# B_batch = ReadAffy(filenames = B_files, phenoData=phenoData)
-
 A_batch
 
-# B_batch
+#library(affyPLM)
+#png('tex/A_MAplot.png', width=1920, height=1200)
+#par(mfrow = c(4, 5))
+#MAplot(A_batch)
+#dev.off()
 
-library(affyPLM)
-png('tex/A_MAplot.png', width=1920, height=1200)
-par(mfrow = c(4, 5))
-MAplot(A_batch)
-dev.off()
-
-# png('tex/B_MAplot.png', width=1920, height=1200)
-# par(mfrow = c(4, 5))
-# MAplot(B_batch)
-# dev.off()
-
-Pset = fitPLM(A_batch)
-pdf('tex/A_NUSEplot.pdf')
-NUSE(Pset)
-dev.off()
-pdf('tex/A_RLEplot.pdf')
-RLE(Pset)
-dev.off()
-
-# Pset <- fitPLM(B_batch)
-# pdf('tex/B_NUSEplot.pdf')
-# NUSE(Pset)
-# dev.off()
-# pdf('tex/B_RLEplot.pdf')
-# RLE(Pset)
-# dev.off()
+#Pset = fitPLM(A_batch)
+#pdf('tex/A_NUSEplot.pdf')
+#NUSE(Pset)
+#dev.off()
+#pdf('tex/A_RLEplot.pdf')
+#RLE(Pset)
+#dev.off()
 
 apms <- pm(A_batch)
 amms <- mm(A_batch)
 
-# bpms <- pm(B_batch)
-# bmms <- mm(B_batch)
+#pdf('tex/A_SCATTERplot.pdf')
+#smoothScatter(log2(amms[, 1]), log2(apms[, 1]), xlab=expression(log[2] * "(MM) values"), ylab=expression(log[2] * "(PM) values"), asp=1)
+#dev.off()
 
-pdf('tex/A_SCATTERplot.pdf')
-smoothScatter(log2(amms[, 1]), log2(apms[, 1]), xlab=expression(log[2] * "(MM) values"), ylab=expression(log[2] * "(PM) values"), asp=1)
-dev.off()
-
-# pdf('tex/B_SCATTERplot.pdf')
-# smoothScatter(log2(bmms[, 1]), log2(bpms[, 1]), xlab=expression(log[2] * "(MM) values"), ylab=expression(log[2] * "(PM) values"), asp=1)
-# dev.off()
-
-pdf('tex/A_INTENSITY_DISTRIBplot.pdf')
-boxplot(A_batch, names=1:length(sampleNames(A_batch)), xlab="Chip A", ylab=expression(log[2] * "(intensity)"), main="Hybridization intensities distributions across 20 subjects on the A chip")
-dev.off()
-
-# pdf('tex/B_INTENSITY_DISTRIBplot.pdf')
-# boxplot(B_batch, names=1:length(sampleNames(B_batch)), xlab="Chip B", ylab=expression(log[2] * "(intensity)"), main="Hybridization intensities distributions across 20 subjects on the B chip")
-# dev.off()
+#pdf('tex/A_INTENSITY_DISTRIBplot.pdf')
+#boxplot(A_batch, names=1:length(sampleNames(A_batch)), xlab="Chip A", ylab=expression(log[2] * "(intensity)"), main="Hybridization intensities distributions across 20 subjects on the A chip")
+#dev.off()
 
 A_batch_RMA = rma(A_batch)
-# B_batch_RMA = rma(B_batch)
 
-png('tex/A_batch_RMA.png', width=1920, height=1200)
-par(mfrow = c(4, 5))
-MAplot(A_batch_RMA)
-dev.off()
+#png('tex/A_batch_RMA.png', width=1920, height=1200)
+#par(mfrow = c(4, 5))
+#MAplot(A_batch_RMA)
+#dev.off()
 
-# png('tex/B_batch_RMA.png', width=1920, height=1200)
-# par(mfrow = c(4, 5))
-# MAplot(B_batch_RMA)
-# dev.off()
+library(limma)
+library(genefilter)
+library(hgu133a.db)
+
+probenames = probeNames(A_batch)
+
+IQRs <- esApply(A_batch_RMA, 1, IQR)
+plot.ecdf(IQRs, pch=".")
+points(IQRs[probenames],rep(0,length(probenames)),pch=1, col="red")
+abline(v=quantile(IQRs, 0.8), lwd=2, col="orange")
+
+filtered_A_batch_RMA <- nsFilter(A_batch_RMA, require.entrez=FALSE, remove.dupEntrez=FALSE, var.func=IQR, var.cutoff=0.8, var.filter=TRUE, filterByQuantile=TRUE, feature.exclue="^AFFX")
+
+feset = filtered_A_batch_RMA$eset
+combinedLevels <- factor(paste(feset$p53.seq.mut.status..p53..mutant..p53..wt., feset$p53.DLDA.classifier.result..0.wt.like..1.mt.like., sep=""))
+design <- model.matrix(~ 0 + combinedLevels)
+colnames(design) = c("p53m0", "p53m1", "p53p0", "p53p1")
+
+cont.matrix <- makeContrasts(MT.WTlike=("p53p0"),
+                             MT.MTlike=("p53p1"),
+                             WT.WTlike=("p53m0"),
+                             WT.MTlike=("p53m1"),
+                             levels=design)
+
+fit <- lmFit(feset, design)
+
+#colnames(fit$cov.coefficients) = c("p53m0", "p53m1", "p53p0", "p53p1")
+#colnames(fit$coefficients) = c("p53m0", "p53m1", "p53p0", "p53p1")
+#colnames(fit$stdev.unscaled) = c("p53m0", "p53m1", "p53p0", "p53p1")
+#colnames(fit$design) = c("p53m0", "p53m1", "p53p0", "p53p1")
+#colnames(fit$qr$qr) = c("p53m0", "p53m1", "p53p0", "p53p1")
+
+fit2  <- contrasts.fit(fit, cont.matrix)
+fit2  <- eBayes(fit2)
+
+topTable(fit2, coef=4, adjust.method="BH", sort.by="P")
