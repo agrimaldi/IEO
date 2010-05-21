@@ -26,8 +26,8 @@ A_batch
 #RLE(Pset)
 #dev.off()
 
-apms <- pm(A_batch)
-amms <- mm(A_batch)
+#apms <- pm(A_batch)
+#amms <- mm(A_batch)
 
 #pdf('tex/A_SCATTERplot.pdf')
 #smoothScatter(log2(amms[, 1]), log2(apms[, 1]), xlab=expression(log[2] * "(MM) values"), ylab=expression(log[2] * "(PM) values"), asp=1)
@@ -53,30 +53,36 @@ probenames = probeNames(A_batch)
 IQRs <- esApply(A_batch_RMA, 1, IQR)
 plot.ecdf(IQRs, pch=".")
 points(IQRs[probenames],rep(0,length(probenames)),pch=1, col="red")
-abline(v=quantile(IQRs, 0.8), lwd=2, col="orange")
+abline(v=quantile(IQRs, 0.2), lwd=2, col="orange")
 
-filtered_A_batch_RMA <- nsFilter(A_batch_RMA, require.entrez=FALSE, remove.dupEntrez=FALSE, var.func=IQR, var.cutoff=0.8, var.filter=TRUE, filterByQuantile=TRUE, feature.exclue="^AFFX")
+filtered_A_batch_RMA <- nsFilter(A_batch_RMA, require.entrez=FALSE, remove.dupEntrez=FALSE, var.func=IQR, var.cutoff=0.3, var.filter=TRUE, filterByQuantile=TRUE, feature.exclue="^AFFX")
 
 feset = filtered_A_batch_RMA$eset
-combinedLevels <- factor(paste(feset$p53.seq.mut.status..p53..mutant..p53..wt., feset$p53.DLDA.classifier.result..0.wt.like..1.mt.like., sep=""))
+combinedLevels = factor(paste(feset$p53.seq.mut.status..p53..mutant..p53..wt., feset$p53.DLDA.classifier.result..0.wt.like..1.mt.like., sep=""))
 design <- model.matrix(~ 0 + combinedLevels)
 colnames(design) = c("p53m0", "p53m1", "p53p0", "p53p1")
 
-cont.matrix <- makeContrasts(MT.WTlike=("p53p0"),
-                             MT.MTlike=("p53p1"),
-                             WT.WTlike=("p53m0"),
-                             WT.MTlike=("p53m1"),
-                             levels=design)
+cont.matrix <- makeContrasts(
+MT.WTlike=(p53p0 - p53m0),
+MT.MTlike=(p53p1 - p53m1),
+WT.WTlike=(p53m1 - p53m0),
+WT.MTlike=(p53p1 - p53m0),
+levels=design)
 
 fit <- lmFit(feset, design)
-
-#colnames(fit$cov.coefficients) = c("p53m0", "p53m1", "p53p0", "p53p1")
-#colnames(fit$coefficients) = c("p53m0", "p53m1", "p53p0", "p53p1")
-#colnames(fit$stdev.unscaled) = c("p53m0", "p53m1", "p53p0", "p53p1")
-#colnames(fit$design) = c("p53m0", "p53m1", "p53p0", "p53p1")
-#colnames(fit$qr$qr) = c("p53m0", "p53m1", "p53p0", "p53p1")
 
 fit2  <- contrasts.fit(fit, cont.matrix)
 fit2  <- eBayes(fit2)
 
-topTable(fit2, coef=4, adjust.method="BH", sort.by="P")
+library(annotate)
+library(hgu133a.db)
+fit2$genes$Symbol <- getSYMBOL(fit2$genes$ID, "hgu133a")
+
+MT_WTlike = topTable(fit2, coef=1, adjust.method="BH", sort.by="P")
+MT_MTlike = topTable(fit2, coef=2, adjust.method="BH", sort.by="P")
+WT_WTlike = topTable(fit2, coef=3, adjust.method="BH", sort.by="P")
+WT_MTlike = topTable(fit2, coef=4, adjust.method="BH", sort.by="P")
+
+results <- decideTests(fit2)
+results
+summary(results)
