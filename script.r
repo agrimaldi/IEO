@@ -86,3 +86,47 @@ topTable(fit2, coef=4, adjust.method="BH", sort.by="P")
 results <- decideTests(fit2)
 results
 summary(results)
+
+vennDiagram(results)
+
+library(org.Hs.eg.db)
+library(GOstats)
+
+affyUniverse = featureNames(feset)
+entrezGeneUniverse <- unlist(mget(affyUniverse, hgu133aENTREZID))
+
+Mlike_p53WT_DE = rownames(results[results[, "visible_phenotype_in_p53WT"]!=0, ])
+p53_status_WTlike_DE = rownames(results[results[, "p53_status_WTlike"]!=0, ])
+p53_status_Mlike_DE = rownames(results[results[, "p53_status_Mlike"]!=0, ])
+#p53_status_DE = intersect(p53_status_Mlike_DE, p53_status_WTlike_DE)
+
+
+
+selectedEntrezGeneIDs = unlist(mget(p53_status_DE, hgu133aENTREZID))
+params <- new("GOHyperGParams", geneIds=selectedEntrezGeneIDs,
+                universeGeneIds=entrezGeneUniverse, annotation="hgu133a.db",
+                ontology="BP", pvalueCutoff=0.05, conditional=FALSE,
+                testDirection="over")
+paramsCond <- params
+conditional(paramsCond) <- TRUE
+hgOverA <- hyperGTest(paramsCond)
+#hgOverA <- hyperGTest(params)
+
+selectedEntrezGeneIDs = unlist(mget(Mlike_p53WT_DE, hgu133aENTREZID))
+params <- new("GOHyperGParams", geneIds=selectedEntrezGeneIDs,
+                universeGeneIds=entrezGeneUniverse, annotation="hgu133a.db",
+                ontology="BP", pvalueCutoff=0.05, conditional=FALSE,
+                testDirection="over")
+paramsCond <- params
+conditional(paramsCond) <- TRUE
+hgOverB <- hyperGTest(paramsCond)
+#hgOverB <- hyperGTest(params)
+
+#selectedEntrezGeneID = unlist(mget(p53_status_DE, hgu133aENTREZID))
+#params <- new("GOHyperGParams", geneIds=selectedEntrezGeneIDs,
+#                universeGeneIds=entrezGeneUniverse, annotation="hgu133a.db",
+#                ontology="BP", pvalueCutoff=0.05, conditional=FALSE,
+#                testDirection="over")
+
+head(summary(hgOverA))
+head(summary(hgOverB))
