@@ -50,12 +50,12 @@ library(hgu133a.db)
 
 probenames = probeNames(A_batch)
 
-IQRs <- esApply(A_batch_RMA, 1, IQR)
+IQRs = esApply(A_batch_RMA, 1, IQR)
 plot.ecdf(IQRs, pch=".")
 points(IQRs[probenames],rep(0,length(probenames)),pch=1, col="red")
-abline(v=quantile(IQRs, 0.2), lwd=2, col="orange")
+abline(v=quantile(IQRs, 0.6), lwd=2, col="orange")
 
-filtered_A_batch_RMA <- nsFilter(A_batch_RMA, require.entrez=FALSE, remove.dupEntrez=FALSE, var.func=IQR, var.cutoff=0.3, var.filter=TRUE, filterByQuantile=TRUE, feature.exclue="^AFFX")
+filtered_A_batch_RMA <- nsFilter(A_batch_RMA, require.entrez=FALSE, remove.dupEntrez=FALSE, var.func=IQR, var.cutoff=0.6, var.filter=TRUE, filterByQuantile=TRUE, feature.exclude="^AFFX")
 
 feset = filtered_A_batch_RMA$eset
 combinedLevels = factor(paste(feset$p53.seq.mut.status..p53..mutant..p53..wt., feset$p53.DLDA.classifier.result..0.wt.like..1.mt.like., sep=""))
