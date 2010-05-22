@@ -63,10 +63,10 @@ design <- model.matrix(~ 0 + combinedLevels)
 colnames(design) = c("p53m0", "p53m1", "p53p0", "p53p1")
 
 cont.matrix <- makeContrasts(
-MT.WTlike=(p53p0 - p53m0),
-MT.MTlike=(p53p1 - p53m1),
-WT.WTlike=(p53m1 - p53m0),
-WT.MTlike=(p53p1 - p53m0),
+visible_phenotype_in_p53WT=(p53m1 - p53m0),
+#visible_phenotype_in_p53M=(p53p1 - p53p0),
+p53_status_WTlike=(p53p0 - p53m0),
+p53_status_Mlike=(p53p0 - p53m0),
 levels=design)
 
 fit <- lmFit(feset, design)
@@ -78,10 +78,10 @@ library(annotate)
 library(hgu133a.db)
 fit2$genes$Symbol <- getSYMBOL(fit2$genes$ID, "hgu133a")
 
-MT_WTlike = topTable(fit2, coef=1, adjust.method="BH", sort.by="P")
-MT_MTlike = topTable(fit2, coef=2, adjust.method="BH", sort.by="P")
-WT_WTlike = topTable(fit2, coef=3, adjust.method="BH", sort.by="P")
-WT_MTlike = topTable(fit2, coef=4, adjust.method="BH", sort.by="P")
+topTable(fit2, coef=1, adjust.method="BH", sort.by="P")
+topTable(fit2, coef=2, adjust.method="BH", sort.by="P")
+topTable(fit2, coef=3, adjust.method="BH", sort.by="P")
+topTable(fit2, coef=4, adjust.method="BH", sort.by="P")
 
 results <- decideTests(fit2)
 results
