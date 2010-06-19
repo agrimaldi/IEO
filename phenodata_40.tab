@@ -1,0 +1,53 @@
+#INDEX (ID) = 
+#p53 seq mut status (p53+=mutant; p53-=wt) = 
+#p53 DLDA classifier result (0=wt-like, 1=mt-like) = 
+#DLDA error (1=yes, 0=no) = 
+#Elston histologic grade = 
+#ER status = 
+#PgR status = 
+#age at diagnosis = 
+#tumor size (mm) = 
+#Lymph node status = 
+#DSS TIME (Disease-Specific Survival Time in years) = 
+#DSS EVENT (Disease-Specific Survival EVENT; 1=death from breast cancer, 0=alive or censored ) = 
+INDEX (ID)	p53 seq mut status (p53+=mutant; p53-=wt)	p53 DLDA classifier result (0=wt-like, 1=mt-like)	DLDA error (1=yes, 0=no)	Elston histologic grade	ER status	PgR status	age at diagnosis	tumor size (mm)	Lymph node status	DSS TIME (Disease-Specific Survival Time in years)	DSS EVENT (Disease-Specific Survival EVENT; 1=death from breast cancer, 0=alive or censored )
+X166B79	p53-	0	0	G2	ER+	PgR+	65	22	LN+	11.333	0
+X218C29	p53-	0	0	G2	ER+	PgR+	69	14	LN-	10.75	0
+X33C30	p53-	0	0	G1	ER+	PgR+	49	18	LN+	NA	NA
+X171B77	p53-	1	1	G2	ER+	PgR+	62	18	LN-	7	1
+X35C29	p53-	0	0	G2	ER+	PgR+	45	23	LN-	6.083	0
+X15C94	p53-	0	0	G2	ER+	PgR+	83	50	LN-	4.417	0
+X290C91	p53-	0	0	G2	ER-	PgR-	75	18	LN-	10	0
+X263C82	p53-	0	0	G1	ER+	PgR+	71	20	LN-	8.25	1
+X209C10	p53-	0	0	G1	ER+	PgR+	80	14	LN-	10.833	0
+X28C76	p53-	0	0	G1	ER+	PgR+	56	9	LN-	10.5	0
+X9B52	p53-	0	0	G2	ER+	PgR+	71	12	LN-	11.333	0
+X49A07	p53-	0	0	G1	ER+	PgR+	80	14	LN-	6.667	1
+X203B49	p53-	0	0	G2	ER+	PgR+	51	40	LN+	10.833	0
+X134B33	p53-	0	0	G2	ER+	PgR+	63	28	LN-	8.25	1
+X278C80	p53-	1	1	G2	ER+	PgR+	56	11	LN-	10.25	0
+X304C89	p53-	0	0	G3	ER+	PgR-	54	15	LN-	2.917	1
+X176B74	p53-	0	0	G2	ER+	PgR+	77	25	LN-	6	0
+X72A92	p53-	0	0	G1	ER+	PgR+	55	16	LN-	12.333	0
+X174B41	p53-	0	0	G1	ER+	PgR+	74	11	LN-	5.75	0
+X259C74	p53-	0	0	G1	ER+	PgR+	65	10	LN-	10.417	0
+X159B47	p53+	0	1	G2	ER+	PgR+	57	14	LN+	11.417	0
+X279C61	p53+	1	0	G3	ER+	PgR+	50	19	LN-	10.167	0
+X5B97	p53+	1	0	G2	ER+	PgR+	37	26	LN-	5.5	1
+X69A93	p53+	1	0	G3	ER+	PgR+	62	50	LN+	12.417	0
+X189B83	p53+	1	0	G2	ER-	PgR-	58	38	LN-	NA	NA
+X73A01	p53+	1	0	G3	ER+	PgR+	44	130	LN+	NA	NA
+X268C87	p53+	1	0	G2	ER+	PgR+	32	15	LN-	10.333	0
+X76A44	p53+	0	1	G3	ER+	PgR-	81	65	LN+	2.083	0
+X208C06	p53+	1	0	G2	ER+	PgR+	67	22	LN?	0.083	0
+X153B09	p53+	1	0	G3	ER-	PgR-	71	18	LN-	11.417	0
+X37C06	p53+	1	0	G3	ER+	PgR-	73	15	LN-	10	0
+X308C93	p53+	1	0	G2	ER-	PgR-	38	21	LN-	5.25	1
+X110B34	p53+	1	0	G2	ER+	PgR+	74	20	LN-	11.667	0
+X164B81	p53+	1	0	G2	ER-	PgR-	62	23	LN-	11.333	0
+X79A35	p53+	1	0	G3	ER-	PgR-	65	25	LN+	0.833	0
+X127B00	p53+	1	0	G3	ER+	PgR+	57	22	LN-	4.667	1
+X147B19	p53+	1	0	G3	ER-	PgR-	71	24	LN+	5.083	0
+X146B39	p53+	1	0	G3	ER-	PgR-	34	50	LN+	NA	NA
+X313A87	p53+	1	0	G3	ER+	PgR-	65	28	LN+	10.167	0
+X314B55	p53+	1	0	G3	ER-	PgR-	38	30	LN-	9.583	1
